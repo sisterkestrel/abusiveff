@@ -3,22 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For My Princess 👑</title>
+  <title>For Alune 👑</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <!-- Decorative: pink AK47s (cute stylized) -->
-  <div class="deco ak-left" aria-hidden="true">
-    <div class="ak47-cute"></div>
-  </div>
-  <div class="deco ak-right" aria-hidden="true">
-    <div class="ak47-cute"></div>
+<body data-theme="light">
+  <!-- Theme & RGB controls (top right) -->
+  <div class="theme-bar">
+    <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle dark/light mode">🌙</button>
+    <div class="rgb-control">
+      <label for="rgbHue">RGB</label>
+      <input type="range" id="rgbHue" min="0" max="360" value="330" />
+    </div>
   </div>
 
-  <!-- Crown with pink gem (her crown - she's a princess) -->
+  <!-- Side images: pink AK47 (left = girl shooting, right = pink ak47) -->
+  <div class="deco ak-left" aria-hidden="true">
+    <img src="photos/girl%20shooting%20pink%20gun.jpg" alt="" class="ak-img" onerror="this.style.display='none'" />
+  </div>
+  <div class="deco ak-right" aria-hidden="true">
+    <img src="photos/pink%20ak47.jpg" alt="" class="ak-img" onerror="this.style.display='none'" />
+  </div>
+
+  <!-- Crown with pink gem (Alune's crown) -->
   <div class="deco crown-top" aria-hidden="true">
     <div class="crown">
       <span class="crown-emoji">👑</span><span class="crown-gem">💎</span>
@@ -29,7 +38,7 @@
   <section id="loading" class="screen active">
     <div class="loader-content">
       <div class="hello-kitty-face"></div>
-      <h1 class="loader-title">Quote of the day</h1>
+      <h1 class="loader-title">Quote of the day <span id="loadingQuoteNum">#1</span></h1>
       <p class="quote">"Sadness doesn't deserve you, you're too beautiful for it."</p>
       <button type="button" class="btn-enter" id="btnEnter">Enter</button>
     </div>
@@ -39,7 +48,11 @@
   <!-- Main menu -->
   <section id="menu" class="screen">
     <div class="menu-content">
-      <h1 class="menu-title">For My Princess 👑</h1>
+      <h1 class="menu-title">For Alune 👑</h1>
+      <!-- Huge zone: Alune's Discord handle -->
+      <div class="discord-zone">
+        <img src="photos/alune%20discord%20handle.jpg" alt="Alune's Discord" class="discord-handle-img" onerror="this.style.display='none'" />
+      </div>
       <nav class="menu-nav">
         <button type="button" class="menu-btn" data-view="quote">
           <span class="menu-btn-icon">💬</span>
@@ -54,10 +67,10 @@
     </div>
   </section>
 
-  <!-- Quote view (same quote) -->
+  <!-- Quote view -->
   <section id="quote-view" class="screen">
     <div class="view-content">
-      <h2>Quote of the day</h2>
+      <h2>Quote of the day <span id="quoteViewNum">#1</span></h2>
       <p class="quote big">"Sadness doesn't deserve you, you're too beautiful for it."</p>
       <button type="button" class="btn-back" data-back="menu">Back to menu</button>
     </div>
@@ -76,6 +89,16 @@
       <button type="button" class="btn-back" data-back="menu">Back to menu</button>
     </div>
   </section>
+
+  <!-- Retro music player (fixed bottom) -->
+  <div class="music-bar">
+    <audio id="bgMusic" preload="metadata">
+      <source src="photos/music.mp3" type="audio/mpeg" />
+      <source src="photos/music.wav" type="audio/wav" />
+    </audio>
+    <button type="button" class="music-play" id="musicPlay" aria-label="Play music">▶</button>
+    <span class="music-label">For Alune</span>
+  </div>
 
   <script src="script.js"></script>
 </body>
