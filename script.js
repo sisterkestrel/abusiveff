@@ -52,29 +52,58 @@
     loadAdminFieldsFromStorage();
   }
 
-  // --- Apply stored images and music (call on load and when admin saves) ---
-  function applyMediaFromStorage() {
+  // --- Apply images and music: config.json first (for everyone on Vercel), then localStorage override ---
+  function applyMedia(urls) {
     var imgDiscord = document.getElementById('imgDiscord');
     var imgLeft = document.getElementById('imgLeftAk');
     var imgRight = document.getElementById('imgRightAk');
     var audio = document.getElementById('bgMusic');
     if (!audio) return;
-
-    var d = localStorage.getItem(STORAGE_DISCORD);
-    var l = localStorage.getItem(STORAGE_LEFT_AK);
-    var r = localStorage.getItem(STORAGE_RIGHT_AK);
-    var m = localStorage.getItem(STORAGE_MUSIC_URL);
-
-    if (imgDiscord && d) { imgDiscord.src = d; imgDiscord.style.display = ''; }
-    if (imgLeft && l) { imgLeft.src = l; imgLeft.style.display = ''; }
-    if (imgRight && r) { imgRight.src = r; imgRight.style.display = ''; }
-    if (m) {
-      audio.src = m;
+    if (urls.discordImage && imgDiscord) { imgDiscord.src = urls.discordImage; imgDiscord.style.display = ''; }
+    if (urls.leftImage && imgLeft) { imgLeft.src = urls.leftImage; imgLeft.style.display = ''; }
+    if (urls.rightImage && imgRight) { imgRight.src = urls.rightImage; imgRight.style.display = ''; }
+    if (urls.musicUrl) {
+      audio.src = urls.musicUrl;
       audio.load();
     }
   }
 
-  applyMediaFromStorage();
+  function applyMediaFromStorage() {
+    var d = localStorage.getItem(STORAGE_DISCORD);
+    var l = localStorage.getItem(STORAGE_LEFT_AK);
+    var r = localStorage.getItem(STORAGE_RIGHT_AK);
+    var m = localStorage.getItem(STORAGE_MUSIC_URL);
+    if (d || l || r || m) {
+      applyMedia({
+        discordImage: d || '',
+        leftImage: l || '',
+        rightImage: r || '',
+        musicUrl: m || ''
+      });
+    }
+  }
+
+  // Load config.json (permanent for everyone), then optional localStorage override
+  (function loadConfig() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'config.json?t=' + Date.now(), true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        try {
+          var config = JSON.parse(xhr.responseText);
+          applyMedia({
+            discordImage: config.discordImage || '',
+            leftImage: config.leftImage || '',
+            rightImage: config.rightImage || '',
+            musicUrl: config.musicUrl || ''
+          });
+        } catch (e) {}
+      }
+      applyMediaFromStorage();
+    };
+    xhr.onerror = function () { applyMediaFromStorage(); };
+    xhr.send();
+  })();
 
   function loadAdminFieldsFromStorage() {
     function isUrl(s) { return s && (s.indexOf('http://') === 0 || s.indexOf('https://') === 0); }
