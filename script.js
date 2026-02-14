@@ -2,6 +2,10 @@
   var QUOTE_STORAGE_KEY = 'aluneQuoteCount';
   var THEME_STORAGE_KEY = 'aluneTheme';
   var RGB_STORAGE_KEY = 'aluneRgbHue';
+  var STORAGE_DISCORD = 'alune_discord_img';
+  var STORAGE_LEFT_AK = 'alune_left_ak';
+  var STORAGE_RIGHT_AK = 'alune_right_ak';
+  var STORAGE_MUSIC_URL = 'alune_music_url';
 
   var screens = {
     loading: document.getElementById('loading'),
@@ -39,6 +43,116 @@
   // First time she sees the quote (loading screen is visible on load) — increment once
   if (screens.loading && screens.loading.classList.contains('active')) {
     updateQuoteCountDisplay(true);
+  }
+
+  // --- Admin panel: show when URL has ?admin ---
+  var adminPanel = document.getElementById('admin-panel');
+  if (adminPanel && window.location.search.indexOf('admin') !== -1) {
+    adminPanel.classList.add('visible');
+    loadAdminFieldsFromStorage();
+  }
+
+  // --- Apply stored images and music (call on load and when admin saves) ---
+  function applyMediaFromStorage() {
+    var imgDiscord = document.getElementById('imgDiscord');
+    var imgLeft = document.getElementById('imgLeftAk');
+    var imgRight = document.getElementById('imgRightAk');
+    var audio = document.getElementById('bgMusic');
+    if (!audio) return;
+
+    var d = localStorage.getItem(STORAGE_DISCORD);
+    var l = localStorage.getItem(STORAGE_LEFT_AK);
+    var r = localStorage.getItem(STORAGE_RIGHT_AK);
+    var m = localStorage.getItem(STORAGE_MUSIC_URL);
+
+    if (imgDiscord && d) { imgDiscord.src = d; imgDiscord.style.display = ''; }
+    if (imgLeft && l) { imgLeft.src = l; imgLeft.style.display = ''; }
+    if (imgRight && r) { imgRight.src = r; imgRight.style.display = ''; }
+    if (m) {
+      audio.src = m;
+      audio.load();
+    }
+  }
+
+  applyMediaFromStorage();
+
+  function loadAdminFieldsFromStorage() {
+    function isUrl(s) { return s && (s.indexOf('http://') === 0 || s.indexOf('https://') === 0); }
+    var d = localStorage.getItem(STORAGE_DISCORD);
+    var l = localStorage.getItem(STORAGE_LEFT_AK);
+    var r = localStorage.getItem(STORAGE_RIGHT_AK);
+    var m = localStorage.getItem(STORAGE_MUSIC_URL);
+    var urlDiscord = document.getElementById('adminDiscordUrl');
+    var urlLeft = document.getElementById('adminLeftUrl');
+    var urlRight = document.getElementById('adminRightUrl');
+    var urlMusic = document.getElementById('adminMusicUrl');
+    if (urlDiscord) urlDiscord.value = isUrl(d) ? d : '';
+    if (urlLeft) urlLeft.value = isUrl(l) ? l : '';
+    if (urlRight) urlRight.value = isUrl(r) ? r : '';
+    if (urlMusic) urlMusic.value = m || '';
+  }
+
+  // --- Admin save: uploads and URLs ---
+  var adminSaveBtn = document.getElementById('adminSave');
+  if (adminSaveBtn) {
+    adminSaveBtn.addEventListener('click', function () {
+      var audio = document.getElementById('bgMusic');
+
+      function saveImage(fileInput, urlInput, storageKey, imgEl) {
+        var url = urlInput && urlInput.value ? urlInput.value.trim() : '';
+        if (url) {
+          localStorage.setItem(storageKey, url);
+          if (imgEl) { imgEl.src = url; imgEl.style.display = ''; }
+          return;
+        }
+        var file = fileInput && fileInput.files && fileInput.files[0];
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            var dataUrl = reader.result;
+            if (dataUrl.length > 500 * 1024) {
+              alert('Image is too large (max ~500KB). Use a smaller image or paste a URL.');
+              return;
+            }
+            localStorage.setItem(storageKey, dataUrl);
+            if (imgEl) { imgEl.src = dataUrl; imgEl.style.display = ''; }
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+
+      saveImage(
+        document.getElementById('adminDiscordFile'),
+        document.getElementById('adminDiscordUrl'),
+        STORAGE_DISCORD,
+        document.getElementById('imgDiscord')
+      );
+      saveImage(
+        document.getElementById('adminLeftFile'),
+        document.getElementById('adminLeftUrl'),
+        STORAGE_LEFT_AK,
+        document.getElementById('imgLeftAk')
+      );
+      saveImage(
+        document.getElementById('adminRightFile'),
+        document.getElementById('adminRightUrl'),
+        STORAGE_RIGHT_AK,
+        document.getElementById('imgRightAk')
+      );
+
+      var musicUrlInput = document.getElementById('adminMusicUrl');
+      var musicFileInput = document.getElementById('adminMusicFile');
+      var musicUrl = musicUrlInput && musicUrlInput.value ? musicUrlInput.value.trim() : '';
+      if (musicUrl) {
+        localStorage.setItem(STORAGE_MUSIC_URL, musicUrl);
+        if (audio) { audio.src = musicUrl; audio.load(); }
+      } else if (musicFileInput && musicFileInput.files && musicFileInput.files[0]) {
+        var file = musicFileInput.files[0];
+        var objUrl = URL.createObjectURL(file);
+        if (audio) { audio.src = objUrl; audio.load(); }
+        alert('Music set for this session. To keep it after refresh, paste a direct link to the MP3 in the Music URL field (e.g. from Dropbox or a file host).');
+      }
+    });
   }
 
   document.getElementById('btnEnter').addEventListener('click', function () {
@@ -106,8 +220,14 @@
   var musicPlay = document.getElementById('musicPlay');
 
   musicPlay.addEventListener('click', function () {
+    if (!audio.src) {
+      alert('No music set. Open the admin panel (add ?admin to the URL) to upload music or paste a music URL.');
+      return;
+    }
     if (audio.paused) {
-      audio.play().catch(function () {});
+      audio.play().catch(function () {
+        alert('Could not play. Check the music URL or try another format (MP3).');
+      });
       musicPlay.textContent = '❚❚';
       musicPlay.classList.add('playing');
     } else {

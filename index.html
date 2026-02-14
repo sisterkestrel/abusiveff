@@ -10,6 +10,14 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-theme="light">
+  <!-- Sakura petals -->
+  <div class="sakura-container" aria-hidden="true">
+    <span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
+    <span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
+    <span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
+    <span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
+  </div>
+
   <!-- Theme & RGB controls (top right) -->
   <div class="theme-bar">
     <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle dark/light mode">🌙</button>
@@ -19,12 +27,12 @@
     </div>
   </div>
 
-  <!-- Side images: pink AK47 (left = girl shooting, right = pink ak47) -->
+  <!-- Side images: set by admin or defaults -->
   <div class="deco ak-left" aria-hidden="true">
-    <img src="photos/girl%20shooting%20pink%20gun.jpg" alt="" class="ak-img" onerror="this.style.display='none'" />
+    <img id="imgLeftAk" src="" alt="" class="ak-img" onerror="this.style.display='none'" />
   </div>
   <div class="deco ak-right" aria-hidden="true">
-    <img src="photos/pink%20ak47.jpg" alt="" class="ak-img" onerror="this.style.display='none'" />
+    <img id="imgRightAk" src="" alt="" class="ak-img" onerror="this.style.display='none'" />
   </div>
 
   <!-- Crown with pink gem (Alune's crown) -->
@@ -51,7 +59,7 @@
       <h1 class="menu-title">For Alune 👑</h1>
       <!-- Huge zone: Alune's Discord handle -->
       <div class="discord-zone">
-        <img src="photos/alune%20discord%20handle.jpg" alt="Alune's Discord" class="discord-handle-img" onerror="this.style.display='none'" />
+        <img id="imgDiscord" src="" alt="Alune's Discord" class="discord-handle-img" onerror="this.style.display='none'" />
       </div>
       <nav class="menu-nav">
         <button type="button" class="menu-btn" data-view="quote">
@@ -92,13 +100,44 @@
 
   <!-- Retro music player (fixed bottom) -->
   <div class="music-bar">
-    <audio id="bgMusic" preload="metadata">
-      <source src="photos/music.mp3" type="audio/mpeg" />
-      <source src="photos/music.wav" type="audio/wav" />
-    </audio>
+    <audio id="bgMusic" preload="metadata"></audio>
     <button type="button" class="music-play" id="musicPlay" aria-label="Play music">▶</button>
     <span class="music-label">For Alune</span>
   </div>
+
+  <!-- Admin panel (open with ?admin in URL) -->
+  <section id="admin-panel" class="admin-panel">
+    <div class="admin-content">
+      <h1 class="admin-title">Admin – Images &amp; Music</h1>
+      <p class="admin-hint">Upload files or paste URLs. Images are saved in this browser; music URL is saved so it works on every visit.</p>
+
+      <div class="admin-field">
+        <label>Discord handle image</label>
+        <input type="file" id="adminDiscordFile" accept="image/*" />
+        <input type="url" id="adminDiscordUrl" placeholder="Or paste image URL" />
+      </div>
+      <div class="admin-field">
+        <label>Left side image (e.g. girl with pink gun)</label>
+        <input type="file" id="adminLeftFile" accept="image/*" />
+        <input type="url" id="adminLeftUrl" placeholder="Or paste image URL" />
+      </div>
+      <div class="admin-field">
+        <label>Right side image (e.g. pink AK47)</label>
+        <input type="file" id="adminRightFile" accept="image/*" />
+        <input type="url" id="adminRightUrl" placeholder="Or paste image URL" />
+      </div>
+      <div class="admin-field">
+        <label>Music</label>
+        <input type="file" id="adminMusicFile" accept="audio/*" />
+        <input type="url" id="adminMusicUrl" placeholder="Or paste music URL (MP3/WAV link)" />
+      </div>
+
+      <div class="admin-actions">
+        <button type="button" class="admin-btn" id="adminSave">Save &amp; apply</button>
+        <a href="?" class="admin-link">← Back to site</a>
+      </div>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>

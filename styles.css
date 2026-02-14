@@ -38,6 +38,67 @@ body {
   transition: background 0.5s ease, color 0.3s ease;
 }
 
+/* ===== Sakura petals ===== */
+.sakura-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.sakura-container .petal {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.75;
+  animation: sakura-fall linear infinite;
+  top: -1.5rem;
+}
+
+.sakura-container .petal:nth-child(1)  { left: 5%;  animation-duration: 12s; animation-delay: 0s; }
+.sakura-container .petal:nth-child(2)  { left: 15%; animation-duration: 14s; animation-delay: 1s; }
+.sakura-container .petal:nth-child(3)  { left: 25%; animation-duration: 11s; animation-delay: 2s; }
+.sakura-container .petal:nth-child(4)  { left: 35%; animation-duration: 15s; animation-delay: 0.5s; }
+.sakura-container .petal:nth-child(5)  { left: 45%; animation-duration: 13s; animation-delay: 3s; }
+.sakura-container .petal:nth-child(6)  { left: 55%; animation-duration: 12s; animation-delay: 1.5s; }
+.sakura-container .petal:nth-child(7)  { left: 65%; animation-duration: 14s; animation-delay: 2.5s; }
+.sakura-container .petal:nth-child(8)  { left: 75%; animation-duration: 11s; animation-delay: 0.8s; }
+.sakura-container .petal:nth-child(9)  { left: 85%; animation-duration: 16s; animation-delay: 2s; }
+.sakura-container .petal:nth-child(10) { left: 92%; animation-duration: 13s; animation-delay: 1s; }
+.sakura-container .petal:nth-child(11) { left: 8%;  animation-duration: 15s; animation-delay: 4s; }
+.sakura-container .petal:nth-child(12) { left: 22%; animation-duration: 12s; animation-delay: 5s; }
+.sakura-container .petal:nth-child(13) { left: 48%; animation-duration: 14s; animation-delay: 3.5s; }
+.sakura-container .petal:nth-child(14) { left: 62%; animation-duration: 11s; animation-delay: 4.5s; }
+.sakura-container .petal:nth-child(15) { left: 78%; animation-duration: 13s; animation-delay: 5.5s; }
+.sakura-container .petal:nth-child(16) { left: 12%; animation-duration: 16s; animation-delay: 6s; }
+.sakura-container .petal:nth-child(17) { left: 38%; animation-duration: 12s; animation-delay: 6.5s; }
+.sakura-container .petal:nth-child(18) { left: 68%; animation-duration: 15s; animation-delay: 7s; }
+.sakura-container .petal:nth-child(19) { left: 88%; animation-duration: 11s; animation-delay: 7.5s; }
+.sakura-container .petal:nth-child(20) { left: 52%; animation-duration: 14s; animation-delay: 8s; }
+
+@keyframes sakura-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  10% {
+    transform: translateY(10vh) translateX(8px) rotate(36deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(50vh) translateX(-12px) rotate(180deg);
+    opacity: 0.7;
+  }
+  90% {
+    transform: translateY(90vh) translateX(6px) rotate(320deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(110vh) translateX(-5px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
 /* ===== Theme bar (top right) ===== */
 .theme-bar {
   position: fixed;
@@ -159,7 +220,7 @@ body {
   50% { transform: scale(1.15); opacity: 0.9; }
 }
 
-/* ===== Side AK images ===== */
+/* ===== Side image: left only (right removed) ===== */
 .deco.ak-left,
 .deco.ak-right {
   position: fixed;
@@ -167,23 +228,21 @@ body {
   transform: translateY(-50%);
   z-index: 5;
   pointer-events: none;
-  width: 140px;
-  max-height: 50vh;
+  width: min(380px, 28vw);
+  max-height: 70vh;
 }
 
-.deco.ak-left { left: 0; }
-.deco.ak-right { right: 0; transform: translateY(-50%) scaleX(-1); }
+.deco.ak-left { left: 10%; }
+.deco.ak-right { display: none; }
 
 .ak-img {
   width: 100%;
   height: auto;
-  max-height: 280px;
+  max-height: 70vh;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.2));
   animation: float-slow 4s ease-in-out infinite;
 }
-
-.deco.ak-right .ak-img { animation-delay: -2s; }
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0); }
@@ -196,6 +255,7 @@ body {
 .loader-content {
   text-align: center;
   max-width: 360px;
+  position: relative;
 }
 
 .hello-kitty-face {
@@ -275,8 +335,13 @@ body {
   position: absolute;
   bottom: 5rem;
   font-size: 1.5rem;
-  opacity: 0.7;
+  opacity: 0.8;
   animation: float 3s ease-in-out infinite;
+}
+
+.loader-hearts::before {
+  content: '💕 ✨ 💗 🎀 💖 ✨ 💕';
+  letter-spacing: 0.3rem;
 }
 
 @keyframes float {
@@ -284,10 +349,46 @@ body {
   50% { transform: translateY(-10px); }
 }
 
+/* Cute sparkles on loader */
+.loader-content::after {
+  content: '✨';
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  font-size: 1.2rem;
+  opacity: 0.6;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.2); }
+}
+
 /* ===== Menu + Discord zone ===== */
 .menu-content {
   text-align: center;
   position: relative;
+}
+
+.menu-content::before {
+  content: '💗';
+  position: absolute;
+  top: -0.5rem;
+  left: 15%;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  animation: twinkle 2.5s ease-in-out infinite;
+}
+
+.menu-content::after {
+  content: '💗';
+  position: absolute;
+  top: -0.5rem;
+  right: 15%;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  animation: twinkle 2.5s ease-in-out infinite 0.5s;
 }
 
 .menu-title {
@@ -299,13 +400,14 @@ body {
 }
 
 .discord-zone {
-  width: min(320px, 90vw);
-  margin: 0 auto 1.5rem;
-  padding: 12px;
+  width: min(400px, 88vw);
+  margin: 0 0 1.5rem auto;
+  margin-right: 14%;
+  padding: 14px;
   background: var(--card-bg);
-  border-radius: 20px;
-  border: 3px solid var(--pink);
-  box-shadow: 0 8px 32px hsl(var(--rgb-hue), 60%, 50% / 0.25);
+  border-radius: 22px;
+  border: 4px solid var(--pink);
+  box-shadow: 0 12px 40px hsl(var(--rgb-hue), 60%, 50% / 0.3);
   animation: glow 3s ease-in-out infinite;
 }
 
@@ -317,7 +419,9 @@ body {
 .discord-handle-img {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 16px;
   display: block;
 }
 
@@ -335,7 +439,7 @@ body {
   padding: 1rem 1.5rem;
   min-width: 260px;
   border: 3px solid var(--pink);
-  border-radius: 16px;
+  border-radius: 20px;
   background: var(--card-bg);
   color: var(--pink-deep);
   cursor: pointer;
@@ -345,6 +449,17 @@ body {
   gap: 0.5rem;
   transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 15px hsl(var(--rgb-hue), 60%, 50% / 0.2);
+  position: relative;
+}
+
+.menu-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  border: 1px solid hsl(var(--rgb-hue), 80%, 85%);
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .menu-btn:hover {
@@ -506,7 +621,7 @@ body {
 .calendar-grid .day-cell:hover .day-num { display: none; }
 .calendar-grid .day-cell:hover .day-msg { display: block; }
 
-/* ===== Retro music bar (bottom) ===== */
+/* ===== Retro music bar (bottom, play centered) ===== */
 .music-bar {
   position: fixed;
   bottom: 0;
@@ -516,7 +631,7 @@ body {
   z-index: 25;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
   padding: 0 20px;
   background: linear-gradient(180deg, hsl(var(--rgb-hue), 35%, 85%) 0%, hsl(var(--rgb-hue), 50%, 75%) 100%);
   border-top: 4px solid hsl(var(--rgb-hue), 100%, 60%);
@@ -554,6 +669,8 @@ body {
 .music-play.playing { background: hsl(var(--rgb-hue), 90%, 95%); }
 
 .music-label {
+  position: absolute;
+  left: 20px;
   font-weight: 700;
   color: var(--text);
   font-size: 1rem;
@@ -561,13 +678,112 @@ body {
 
 /* Responsive ===== */
 @media (max-width: 768px) {
-  .deco.ak-left,
-  .deco.ak-right { width: 80px; }
+  .deco.ak-left { width: min(280px, 32vw); left: 6%; }
+  .discord-zone { margin-right: 8%; }
   .theme-bar { flex-wrap: wrap; }
+  .sakura-container .petal { font-size: 1rem; }
 }
 
 @media (max-width: 600px) {
-  .deco.ak-left .ak-img,
-  .deco.ak-right .ak-img { max-height: 160px; }
+  .deco.ak-left { width: min(200px, 30vw); left: 4%; }
+  .deco.ak-left .ak-img { max-height: 50vh; }
+  .discord-zone { margin-right: 5%; width: min(340px, 95vw); }
   .crown { font-size: 1.8rem; }
 }
+
+/* ===== Admin panel ===== */
+.admin-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--bg);
+  overflow-y: auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.admin-panel.visible {
+  display: block;
+}
+
+.admin-content {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.admin-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--pink-deep);
+  margin: 0 0 0.5rem;
+}
+
+.admin-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.admin-field {
+  margin-bottom: 1.25rem;
+}
+
+.admin-field label {
+  display: block;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.admin-field input[type="file"],
+.admin-field input[type="url"] {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--pink-pale);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.admin-field input[type="url"] {
+  margin-bottom: 0;
+}
+
+.admin-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.admin-btn {
+  font-family: inherit;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+  color: var(--white);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.admin-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px hsl(var(--rgb-hue), 80%, 50% / 0.4);
+}
+
+.admin-link {
+  color: var(--pink-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-link:hover { text-decoration: underline; }
