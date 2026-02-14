@@ -1,0 +1,419 @@
+/* ===== Pink Hello Kitty theme ===== */
+:root {
+  --pink-light: #ffb6c1;
+  --pink: #ff69b4;
+  --pink-deep: #ff1493;
+  --pink-pale: #ffc0cb;
+  --pink-white: #fff0f5;
+  --white: #fff;
+  --black: #2d1b2e;
+  --bow: #ff69b4;
+  --crown-gold: #ffd700;
+  --crown-pink: #ff69b4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Quicksand', 'Nunito', sans-serif;
+  background: linear-gradient(165deg, #fff0f5 0%, #ffc0cb 35%, #ffb6c1 70%, #ff69b4 100%);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* ===== Screens ===== */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.screen.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ===== Decorative crown (top center) ===== */
+.deco.crown-top {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+.crown {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.crown-emoji {
+  margin-right: 2px;
+}
+
+.crown-gem {
+  display: inline-block;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+}
+
+/* ===== Decorative pink AK47s (stylized cute) ===== */
+.deco.ak-left,
+.deco.ak-right {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.deco.ak-left { left: 8px; }
+.deco.ak-right { right: 8px; transform: translateY(-50%) scaleX(-1); }
+
+.ak47-cute {
+  width: 60px;
+  height: 24px;
+  background: linear-gradient(90deg, var(--pink-deep), var(--pink));
+  border-radius: 12px 4px 4px 12px;
+  box-shadow: 0 2px 8px rgba(255,105,180,0.4);
+  position: relative;
+}
+
+.ak47-cute::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 8px;
+  background: var(--pink);
+  border-radius: 4px;
+}
+
+.ak47-cute::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 2px;
+  width: 20px;
+  height: 6px;
+  background: var(--pink-deep);
+  border-radius: 2px;
+}
+
+.deco.ak-right .ak47-cute { border-radius: 4px 12px 12px 4px; }
+
+/* ===== Loading screen ===== */
+#loading {
+  flex-direction: column;
+}
+
+.loader-content {
+  text-align: center;
+  max-width: 360px;
+}
+
+.hello-kitty-face {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 4px 20px rgba(255,105,180,0.3);
+  position: relative;
+}
+
+.hello-kitty-face::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: var(--black);
+  border-radius: 50%;
+  box-shadow: 22px 0 0 var(--black);
+}
+
+.hello-kitty-face::after {
+  content: '🎀';
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  font-size: 1.8rem;
+}
+
+.loader-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--pink-deep);
+  margin: 0 0 1rem;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+.quote {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--black);
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+}
+
+.btn-enter {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255,105,180,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-enter:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255,105,180,0.5);
+}
+
+.loader-hearts {
+  position: absolute;
+  bottom: 2rem;
+  font-size: 1.5rem;
+  opacity: 0.7;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ===== Menu ===== */
+.menu-content {
+  text-align: center;
+  position: relative;
+}
+
+.menu-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--pink-deep);
+  margin: 0 0 2rem;
+}
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.menu-btn {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  min-width: 260px;
+  border: 3px solid var(--pink);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.9);
+  color: var(--pink-deep);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(255,105,180,0.2);
+}
+
+.menu-btn:hover {
+  transform: scale(1.03);
+  background: var(--white);
+  box-shadow: 0 6px 25px rgba(255,105,180,0.35);
+}
+
+.menu-btn-icon {
+  font-size: 1.3rem;
+}
+
+.back-from-menu {
+  position: absolute;
+  top: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  padding: 0.5rem;
+}
+
+.back-from-menu:hover { opacity: 1; }
+
+/* ===== Quote view ===== */
+.view-content {
+  text-align: center;
+  max-width: 420px;
+}
+
+.view-content h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  color: var(--pink-deep);
+  margin: 0 0 1rem;
+}
+
+.quote.big {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.btn-back {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  border: 2px solid var(--pink);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  color: var(--pink-deep);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-back:hover {
+  transform: scale(1.03);
+  background: var(--white);
+}
+
+/* ===== Calendar view ===== */
+.calendar-content {
+  max-width: 380px;
+}
+
+.calendar-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cal-month-year {
+  font-weight: 700;
+  color: var(--pink-deep);
+  min-width: 140px;
+  text-align: center;
+}
+
+.cal-nav {
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  color: var(--pink-deep);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.cal-nav:hover {
+  transform: scale(1.1);
+  background: var(--white);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.7rem;
+}
+
+.calendar-grid .day-label {
+  text-align: center;
+  font-weight: 700;
+  color: var(--pink-deep);
+  padding: 4px 0;
+}
+
+.calendar-grid .day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  border: 2px solid var(--pink-pale);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  padding: 4px;
+}
+
+.calendar-grid .day-cell:hover {
+  transform: scale(1.05);
+  background: var(--white);
+  border-color: var(--pink);
+  box-shadow: 0 2px 12px rgba(255,105,180,0.3);
+}
+
+.calendar-grid .day-cell.other-month {
+  opacity: 0.5;
+}
+
+.calendar-grid .day-cell .day-num {
+  font-weight: 700;
+  color: var(--black);
+}
+
+.calendar-grid .day-cell .day-msg {
+  display: none;
+  font-size: 0.6rem;
+  line-height: 1.2;
+  color: var(--pink-deep);
+  font-weight: 600;
+}
+
+.calendar-grid .day-cell:hover .day-num { display: none; }
+.calendar-grid .day-cell:hover .day-msg { display: block; }
+
+/* Responsive: hide side decos on small screens */
+@media (max-width: 600px) {
+  .deco.ak-left,
+  .deco.ak-right { opacity: 0.5; }
+  .crown { font-size: 1.8rem; }
+}

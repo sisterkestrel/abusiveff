@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Princess 👑</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Decorative: pink AK47s (cute stylized) -->
+  <div class="deco ak-left" aria-hidden="true">
+    <div class="ak47-cute"></div>
+  </div>
+  <div class="deco ak-right" aria-hidden="true">
+    <div class="ak47-cute"></div>
+  </div>
+
+  <!-- Crown with pink gem (her crown - she's a princess) -->
+  <div class="deco crown-top" aria-hidden="true">
+    <div class="crown">
+      <span class="crown-emoji">👑</span><span class="crown-gem">💎</span>
+    </div>
+  </div>
+
+  <!-- Loading screen -->
+  <section id="loading" class="screen active">
+    <div class="loader-content">
+      <div class="hello-kitty-face"></div>
+      <h1 class="loader-title">Quote of the day</h1>
+      <p class="quote">"Sadness doesn't deserve you, you're too beautiful for it."</p>
+      <button type="button" class="btn-enter" id="btnEnter">Enter</button>
+    </div>
+    <div class="loader-hearts"></div>
+  </section>
+
+  <!-- Main menu -->
+  <section id="menu" class="screen">
+    <div class="menu-content">
+      <h1 class="menu-title">For My Princess 👑</h1>
+      <nav class="menu-nav">
+        <button type="button" class="menu-btn" data-view="quote">
+          <span class="menu-btn-icon">💬</span>
+          Quote of the day
+        </button>
+        <button type="button" class="menu-btn" data-view="calendar">
+          <span class="menu-btn-icon">📅</span>
+          You're beautiful every day
+        </button>
+      </nav>
+      <button type="button" class="back-from-menu" id="backToLoading" aria-label="Back to loading">✨</button>
+    </div>
+  </section>
+
+  <!-- Quote view (same quote) -->
+  <section id="quote-view" class="screen">
+    <div class="view-content">
+      <h2>Quote of the day</h2>
+      <p class="quote big">"Sadness doesn't deserve you, you're too beautiful for it."</p>
+      <button type="button" class="btn-back" data-back="menu">Back to menu</button>
+    </div>
+  </section>
+
+  <!-- Calendar view -->
+  <section id="calendar-view" class="screen">
+    <div class="view-content calendar-content">
+      <h2>You look beautiful every single day 👑</h2>
+      <div class="calendar-controls">
+        <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+        <span class="cal-month-year" id="calMonthYear"></span>
+        <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+      <button type="button" class="btn-back" data-back="menu">Back to menu</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
